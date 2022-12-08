@@ -1,48 +1,40 @@
 import React, { Component } from 'react';
 import css from './Modal.module.css';
 import PropTypes from 'prop-types';
+import { useEffect } from 'react';
 
-export class Modal extends Component {
-  constructor() {
-    super();
-    this.onWindonwKeypress = this.onWindonwKeypress.bind(this);
-    this.onClickOverlay = this.onClickOverlay.bind(this);
-  }
-
-  componentDidMount() {
-    window.addEventListener('keydown', this.onWindonwKeypress);
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('keydown', this.onWindonwKeypress);
-  }
-
-  onWindonwKeypress(evt) {
-    if (evt.key === 'Escape') {
-      console.log('closeModal');
-      this.props.onCloseModal();
+export const Modal = ({ modalImg, onCloseModal }) => {
+  useEffect(() => {
+    function onWindonwKeypress(evt) {
+      if (evt.key === 'Escape') {
+        onCloseModal();
+      }
     }
-  }
+    window.addEventListener('keydown', evt => onWindonwKeypress(evt));
+    return () => {
+      window.removeEventListener('keydown', evt => onWindonwKeypress(evt));
+    };
+  }, [onCloseModal]);
 
-  onClickOverlay() {
-    this.props.onCloseModal();
-  }
+  const { largeImageURL, tags } = modalImg;
 
-  render() {
-    const { largeImageURL, tags } = this.props.modalImg;
-    return (
-      <div className={css.Overlay} onClick={this.onClickOverlay}>
-        <div className={css.Modal}>
-          <img
-            src={largeImageURL}
-            alt={tags}
-            onClick={evt => evt.stopPropagation()}
-          />
-        </div>
+  return (
+    <div
+      className={css.Overlay}
+      onClick={() => {
+        onClickOverlay();
+      }}
+    >
+      <div className={css.Modal}>
+        <img
+          src={largeImageURL}
+          alt={tags}
+          onClick={evt => evt.stopPropagation()}
+        />
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 Modal.propTypes = {
   modalImg: PropTypes.object,
