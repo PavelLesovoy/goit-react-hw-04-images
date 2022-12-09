@@ -14,7 +14,7 @@ export const App = () => {
   const [filter, setFilter] = useState('');
   const [availablePages, setAvailablePages] = useState(0);
   const [page, setPage] = useState(1);
-  const [modalImg, setMogalImg] = useState(null);
+  const [modalImg, setModalImg] = useState(null);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -42,12 +42,12 @@ export const App = () => {
     setFilter(trimmedSearchValue);
     setAvailablePages(0);
     setPage(1);
-    setMogalImg(null);
+    setModalImg(null);
   };
 
   const openModal = id => {
     const currentImg = images.find(img => img.id === id);
-    setMogalImg(currentImg);
+    setModalImg(currentImg);
   };
 
   return (
@@ -58,7 +58,7 @@ export const App = () => {
       </ImageGallery>
 
       {modalImg && (
-        <Modal modalImg={modalImg} onCloseModal={() => setMogalImg(null)} />
+        <Modal modalImg={modalImg} onCloseModal={() => setModalImg(null)} />
       )}
       {loading && <Loader />}
       {availablePages > page && loading === false && (

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import css from './Modal.module.css';
 import PropTypes from 'prop-types';
 import { useEffect } from 'react';
@@ -22,7 +22,7 @@ export const Modal = ({ modalImg, onCloseModal }) => {
     <div
       className={css.Overlay}
       onClick={() => {
-        onClickOverlay();
+        onCloseModal();
       }}
     >
       <div className={css.Modal}>
